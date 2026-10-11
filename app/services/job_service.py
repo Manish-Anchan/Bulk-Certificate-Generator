@@ -175,7 +175,8 @@ class JobService:
                     dest_path = str(
                         storage_service.get_certificate_path(job.id, cert_id)
                     )
-                    verify_url = f"/api/v1/certificates/{cert_id}/verify"
+                    base = settings.BASE_URL.rstrip("/") if settings.BASE_URL else ""
+                    verify_url = f"{base}/api/v1/certificates/{cert_id}/verify"
 
                     # Offload CPU-bound PDF rendering to thread pool
                     await loop.run_in_executor(
