@@ -21,9 +21,19 @@ class Settings(BaseSettings):
     @classmethod
     def assemble_db_url(cls, v: str) -> str:
         if v.startswith("postgres://"):
-            return v.replace("postgres://", "postgresql+asyncpg://", 1)
-        if v.startswith("postgresql://") and not v.startswith("postgresql+asyncpg://"):
-            return v.replace("postgresql://", "postgresql+asyncpg://", 1)
+            v = v.replace("postgres://", "postgresql+asyncpg://", 1)
+        elif v.startswith("postgresql://") and not v.startswith(
+            "postgresql+asyncpg://"
+        ):
+            v = v.replace("postgresql://", "postgresql+asyncpg://", 1)
+
+        # Normalize driver-specific query parameters for asyncpg compatibility
+        if "sslmode=" in v:
+            v = v.replace("sslmode=", "ssl=")
+        if "&channel_binding=require" in v:
+            v = v.replace("&channel_binding=require", "")
+        if "?channel_binding=require" in v:
+            v = v.replace("?channel_binding=require", "")
         return v
 
     # Certificate Storage Directory

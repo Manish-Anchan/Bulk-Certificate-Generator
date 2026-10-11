@@ -1,12 +1,23 @@
 # 🎓 Bulk Certificate Generator Backend
 
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-Render-46E3B7.svg?logo=render&logoColor=white)](https://bulk-certificate-generator-bwvb.onrender.com/)
+[![Database](https://img.shields.io/badge/Database-Neon%20PostgreSQL-00e599.svg?logo=postgresql&logoColor=white)](https://neon.tech/)
 [![Python](https://img.shields.io/badge/Python-3.12-blue.svg)](https://www.python.org/)
 [![FastAPI](https://img.shields.io/badge/FastAPI-0.115+-009688.svg)](https://fastapi.tiangolo.com/)
 [![uv](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/uv/main/assets/badge/v0.json)](https://github.com/astral-sh/uv)
 [![Code style: ruff](https://img.shields.io/badge/code%20style-ruff-000000.svg)](https://github.com/astral-sh/ruff)
-[![Tests](https://img.shields.io/badge/tests-17%20passed-success.svg)](https://docs.pytest.org/)
+[![Tests](https://img.shields.io/badge/tests-18%20passed-success.svg)](https://docs.pytest.org/)
 
 A production-grade, asynchronous backend API built with **FastAPI** designed to handle bulk certificate generation with high throughput, strict per-recipient fault isolation, real-time progress polling, and flexible retrieval (single vector PDF or bulk `.zip` archive).
+
+> [!TIP]
+> ### 🌐 Live Cloud Deployment
+> The application is deployed live with a managed **Neon PostgreSQL** database:
+> - **Interactive Web Dashboard**: [https://bulk-certificate-generator-bwvb.onrender.com/](https://bulk-certificate-generator-bwvb.onrender.com/)
+> - **Interactive Swagger Docs**: [https://bulk-certificate-generator-bwvb.onrender.com/docs](https://bulk-certificate-generator-bwvb.onrender.com/docs)
+> - **ReDoc Documentation**: [https://bulk-certificate-generator-bwvb.onrender.com/redoc](https://bulk-certificate-generator-bwvb.onrender.com/redoc)
+> - **API Health Check**: [https://bulk-certificate-generator-bwvb.onrender.com/health](https://bulk-certificate-generator-bwvb.onrender.com/health)
+
 
 ---
 
