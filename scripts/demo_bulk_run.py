@@ -23,7 +23,9 @@ def run_demo():
         print("\n1️⃣ Checking API Health Status...")
         try:
             health = client.get("/health").json()
-            print(f"   Status: {health['status']} | Version: {health['version']} | Env: {health['environment']}")
+            print(
+                f"   Status: {health['status']} | Version: {health['version']} | Env: {health['environment']}"
+            )
         except Exception:  # noqa: BLE001
             print(f"❌ Could not connect to API at {BASE_URL}. Is the server running?")
             print("   Run: uv run uvicorn app.main:app --port 8000")
@@ -37,11 +39,37 @@ def run_demo():
             "certificate_title": "Certificate of Excellence",
             "issue_date": "2026-10-11",
             "recipients": [
-                {"name": "Siddharth Rao", "email": "siddharth@example.com", "custom_fields": {"track": "System Design", "grade": "Distinction"}},
-                {"name": "Ananya Sharma", "email": "ananya@example.com", "custom_fields": {"track": "Cloud Architecture", "grade": "Honors"}},
-                {"name": "Vikram Malhotra", "email": "vikram@example.com", "custom_fields": {"track": "Distributed Systems", "grade": "Merit"}},
-                {"name": "Priya Nambiar", "email": "priya@example.com", "custom_fields": {"track": "Reliability Engineering", "grade": "Distinction"}},
-                {"name": "Arjun Patel", "email": "arjun@example.com", "custom_fields": {"track": "Performance Optimization", "grade": "High Honors"}},
+                {
+                    "name": "Siddharth Rao",
+                    "email": "siddharth@example.com",
+                    "custom_fields": {"track": "System Design", "grade": "Distinction"},
+                },
+                {
+                    "name": "Ananya Sharma",
+                    "email": "ananya@example.com",
+                    "custom_fields": {"track": "Cloud Architecture", "grade": "Honors"},
+                },
+                {
+                    "name": "Vikram Malhotra",
+                    "email": "vikram@example.com",
+                    "custom_fields": {"track": "Distributed Systems", "grade": "Merit"},
+                },
+                {
+                    "name": "Priya Nambiar",
+                    "email": "priya@example.com",
+                    "custom_fields": {
+                        "track": "Reliability Engineering",
+                        "grade": "Distinction",
+                    },
+                },
+                {
+                    "name": "Arjun Patel",
+                    "email": "arjun@example.com",
+                    "custom_fields": {
+                        "track": "Performance Optimization",
+                        "grade": "High Honors",
+                    },
+                },
             ],
         }
 
@@ -83,14 +111,18 @@ def run_demo():
 
         # Verification check
         verify_data = client.get(f"/api/v1/certificates/{cert_id}/verify").json()
-        print(f"   Verification: {verify_data['verification_message']} (Valid: {verify_data['valid']})")
+        print(
+            f"   Verification: {verify_data['verification_message']} (Valid: {verify_data['valid']})"
+        )
 
         # Download individual PDF
         pdf_resp = client.get(f"/api/v1/certificates/{cert_id}/download")
         filename = f"{cert_id}.pdf"
         with open(filename, "wb") as f:
             f.write(pdf_resp.content)
-        print(f"   📥 Downloaded single PDF: {filename} ({len(pdf_resp.content)} bytes)")
+        print(
+            f"   📥 Downloaded single PDF: {filename} ({len(pdf_resp.content)} bytes)"
+        )
 
         # 6. Download ZIP
         zip_url = status_data["zip_download_url"]
@@ -98,7 +130,9 @@ def run_demo():
         zip_filename = f"certificates_{job_id}.zip"
         with open(zip_filename, "wb") as f:
             f.write(zip_resp.content)
-        print(f"   📦 Downloaded bulk ZIP: {zip_filename} ({len(zip_resp.content)} bytes)")
+        print(
+            f"   📦 Downloaded bulk ZIP: {zip_filename} ({len(zip_resp.content)} bytes)"
+        )
 
         print("\n" + "=" * 65)
         print("🎉 Live Demo Completed Successfully!")

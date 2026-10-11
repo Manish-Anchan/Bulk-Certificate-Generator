@@ -43,7 +43,10 @@ async def test_job_lifecycle_and_progress_tracking(client: AsyncClient):
     for rec in data["recipients"]:
         assert rec["status"] == "SUCCESS"
         assert rec["certificate_id"] is not None
-        assert rec["download_url"] == f"/api/v1/certificates/{rec['certificate_id']}/download"
+        assert (
+            rec["download_url"]
+            == f"/api/v1/certificates/{rec['certificate_id']}/download"
+        )
         assert rec["error_message"] is None
 
 

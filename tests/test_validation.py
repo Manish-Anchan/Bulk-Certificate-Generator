@@ -66,9 +66,7 @@ async def test_whitespace_only_recipient_name_fails(client: AsyncClient):
     payload = {
         "event_name": "Webinar",
         "issuer_name": "Speaker",
-        "recipients": [
-            {"name": "   ", "email": "valid@example.com"}
-        ],
+        "recipients": [{"name": "   ", "email": "valid@example.com"}],
     }
 
     response = await client.post("/api/v1/jobs", json=payload)

@@ -28,7 +28,9 @@ def test_pdf_generation_magic_bytes(tmp_path: Path):
 
 def test_pdf_dynamic_scaling_long_name():
     """Test that generator gracefully handles exceptionally long recipient names without crashing."""
-    long_name = "Sir Bartholomew Montgomery Chichester-Smythe the Third, Grand Chancellor"
+    long_name = (
+        "Sir Bartholomew Montgomery Chichester-Smythe the Third, Grand Chancellor"
+    )
     pdf_bytes = certificate_generator.generate(
         recipient_name=long_name,
         event_name="Advanced Astrophysics and Quantum Computing Seminar",

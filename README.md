@@ -134,9 +134,11 @@ docker compose up --build
 ```
 
 The server is available at:
+- **Interactive Web Dashboard (Live UI)**: [http://localhost:8000/](http://localhost:8000)
 - **Interactive Swagger Documentation**: [http://localhost:8000/docs](http://localhost:8000/docs)
 - **ReDoc Documentation**: [http://localhost:8000/redoc](http://localhost:8000/redoc)
 - **Health Check**: [http://localhost:8000/health](http://localhost:8000/health)
+
 
 ---
 

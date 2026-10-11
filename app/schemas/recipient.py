@@ -12,9 +12,15 @@ EMAIL_REGEX = re.compile(r"^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$")
 class RecipientCreate(BaseModel):
     """Schema for recipient input in bulk certificate request."""
 
-    name: str = Field(..., min_length=1, max_length=200, description="Full name of recipient")
-    email: str = Field(..., min_length=3, max_length=255, description="Email address of recipient")
-    custom_fields: dict[str, Any] | None = Field(default=None, description="Optional metadata")
+    name: str = Field(
+        ..., min_length=1, max_length=200, description="Full name of recipient"
+    )
+    email: str = Field(
+        ..., min_length=3, max_length=255, description="Email address of recipient"
+    )
+    custom_fields: dict[str, Any] | None = Field(
+        default=None, description="Optional metadata"
+    )
 
     @field_validator("name")
     @classmethod

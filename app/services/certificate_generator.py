@@ -111,17 +111,23 @@ class CertificateGenerator:
         # Subtle gold divider
         c.setStrokeColor(colors.HexColor("#D4AF37"))
         c.setLineWidth(1)
-        c.line(self.width / 2 - 80, self.height - 85, self.width / 2 + 80, self.height - 85)
+        c.line(
+            self.width / 2 - 80, self.height - 85, self.width / 2 + 80, self.height - 85
+        )
 
     def _draw_title(self, c: canvas.Canvas, certificate_title: str) -> None:
         """Draw large certificate title."""
         c.setFillColor(colors.HexColor("#1A365D"))
         c.setFont("Helvetica-Bold", 28)
-        c.drawCentredString(self.width / 2, self.height - 135, certificate_title.upper())
+        c.drawCentredString(
+            self.width / 2, self.height - 135, certificate_title.upper()
+        )
 
         c.setFillColor(colors.HexColor("#718096"))
         c.setFont("Helvetica", 11)
-        c.drawCentredString(self.width / 2, self.height - 165, "THIS IS PROUDLY PRESENTED TO")
+        c.drawCentredString(
+            self.width / 2, self.height - 165, "THIS IS PROUDLY PRESENTED TO"
+        )
 
     def _draw_recipient(self, c: canvas.Canvas, recipient_name: str) -> None:
         """Draw centered recipient name with dynamic font scaling to prevent overflow."""
@@ -139,7 +145,9 @@ class CertificateGenerator:
         c.drawCentredString(self.width / 2, y_pos, recipient_name)
 
         # Decorative underline below name
-        name_width = min(c.stringWidth(recipient_name, "Times-BoldItalic", font_size), 450)
+        name_width = min(
+            c.stringWidth(recipient_name, "Times-BoldItalic", font_size), 450
+        )
         c.setStrokeColor(colors.HexColor("#D4AF37"))
         c.setLineWidth(1.5)
         c.line(
@@ -208,6 +216,7 @@ class CertificateGenerator:
 
         # Draw QR code image onto canvas
         from reportlab.lib.utils import ImageReader
+
         qr_image = ImageReader(qr_buffer)
         qr_size = 55
         qr_x = self.width / 2 - (qr_size / 2)

@@ -101,7 +101,6 @@ async def get_job_status(
 
     return JobDetailResponse(
         job_id=job.id,
-
         event_name=job.event_name,
         issuer_name=job.issuer_name,
         certificate_title=job.certificate_title,
@@ -156,8 +155,12 @@ async def download_job_certificates_zip(
     # Prepare file mappings (sanitize display name)
     files_to_zip = []
     for r in successful_recipients:
-        if r.certificate_file_path and storage_service.certificate_exists(r.certificate_file_path):
-            safe_name = "".join(c for c in r.recipient_name if c.isalnum() or c in (" ", "_", "-")).strip()
+        if r.certificate_file_path and storage_service.certificate_exists(
+            r.certificate_file_path
+        ):
+            safe_name = "".join(
+                c for c in r.recipient_name if c.isalnum() or c in (" ", "_", "-")
+            ).strip()
             display_filename = f"{safe_name}_{r.certificate_id}.pdf"
             files_to_zip.append((display_filename, r.certificate_file_path))
 

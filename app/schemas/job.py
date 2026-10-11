@@ -9,15 +9,21 @@ from app.schemas.recipient import RecipientCreate, RecipientResponse
 class JobCreate(BaseModel):
     """Payload to request bulk certificate generation."""
 
-    event_name: str = Field(..., min_length=1, max_length=255, description="Name of the course/event")
-    issuer_name: str = Field(..., min_length=1, max_length=255, description="Name of issuing authority")
+    event_name: str = Field(
+        ..., min_length=1, max_length=255, description="Name of the course/event"
+    )
+    issuer_name: str = Field(
+        ..., min_length=1, max_length=255, description="Name of issuing authority"
+    )
     certificate_title: str = Field(
         default="Certificate of Completion",
         min_length=1,
         max_length=255,
         description="Title of the certificate",
     )
-    issue_date: date = Field(default_factory=date.today, description="Issue date on the certificate")
+    issue_date: date = Field(
+        default_factory=date.today, description="Issue date on the certificate"
+    )
     recipients: list[RecipientCreate] = Field(
         ...,
         min_length=1,

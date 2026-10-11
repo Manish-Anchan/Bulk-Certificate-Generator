@@ -123,7 +123,6 @@ class JobService:
             async with database.AsyncSessionLocal() as db_session:
                 await self._execute_job_processing(job_id, db_session)
 
-
     async def _execute_job_processing(self, job_id: str, session: AsyncSession) -> None:
         """Internal execution loop for processing recipients and handling failures atomically."""
         try:
@@ -141,8 +140,16 @@ class JobService:
                 return
 
             # Idempotency guard: do not reprocess jobs that already reached terminal status
-            if job.status in (JobStatus.COMPLETED, JobStatus.PARTIALLY_COMPLETED, JobStatus.FAILED):
-                logger.info("Job %s already in terminal status %s; skipping", job_id, job.status.value)
+            if job.status in (
+                JobStatus.COMPLETED,
+                JobStatus.PARTIALLY_COMPLETED,
+                JobStatus.FAILED,
+            ):
+                logger.info(
+                    "Job %s already in terminal status %s; skipping",
+                    job_id,
+                    job.status.value,
+                )
                 return
 
             # 2. Transition status to PROCESSING
@@ -165,7 +172,9 @@ class JobService:
                     # Generate unique human-readable certificate ID
                     cert_code = uuid.uuid4().hex[:8].upper()
                     cert_id = f"CERT-{job.issue_date.year}-{cert_code}"
-                    dest_path = str(storage_service.get_certificate_path(job.id, cert_id))
+                    dest_path = str(
+                        storage_service.get_certificate_path(job.id, cert_id)
+                    )
                     verify_url = f"/api/v1/certificates/{cert_id}/verify"
 
                     # Offload CPU-bound PDF rendering to thread pool
@@ -233,14 +242,15 @@ class JobService:
             )
 
         except Exception as e:  # noqa: BLE001
-            logger.critical("Unexpected error in Job %s execution: %s", job_id, e, exc_info=True)
+            logger.critical(
+                "Unexpected error in Job %s execution: %s", job_id, e, exc_info=True
+            )
             try:
                 job.status = JobStatus.FAILED
                 job.completed_at = datetime.now(UTC)
                 await session.commit()
             except Exception as rollback_err:  # noqa: BLE001
                 logger.error("Failed to commit final failed state: %s", rollback_err)
-
 
 
 job_service = JobService()

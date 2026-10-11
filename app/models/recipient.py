@@ -37,7 +37,9 @@ class Recipient(Base):
         index=True,
     )
     recipient_name: Mapped[str] = mapped_column(String(255), nullable=False)
-    recipient_email: Mapped[str] = mapped_column(String(255), nullable=False, index=True)
+    recipient_email: Mapped[str] = mapped_column(
+        String(255), nullable=False, index=True
+    )
     custom_fields: Mapped[dict[str, Any] | None] = mapped_column(JSON, nullable=True)
 
     status: Mapped[RecipientStatus] = mapped_column(
@@ -53,7 +55,9 @@ class Recipient(Base):
         nullable=True,
         index=True,
     )
-    certificate_file_path: Mapped[str | None] = mapped_column(String(512), nullable=True)
+    certificate_file_path: Mapped[str | None] = mapped_column(
+        String(512), nullable=True
+    )
     error_message: Mapped[str | None] = mapped_column(Text, nullable=True)
 
     created_at: Mapped[datetime] = mapped_column(
@@ -61,7 +65,11 @@ class Recipient(Base):
         nullable=False,
         default=lambda: datetime.now(UTC),
     )
-    generated_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), nullable=True)
+    generated_at: Mapped[datetime | None] = mapped_column(
+        DateTime(timezone=True), nullable=True
+    )
 
     # Relationships
-    job: Mapped["Job"] = relationship("Job", back_populates="recipients", lazy="selectin")
+    job: Mapped["Job"] = relationship(
+        "Job", back_populates="recipients", lazy="selectin"
+    )

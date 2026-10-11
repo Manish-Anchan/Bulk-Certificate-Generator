@@ -43,7 +43,9 @@ async def download_certificate(
             detail="Certificate PDF file not found on disk.",
         )
 
-    safe_name = "".join(c for c in recipient.recipient_name if c.isalnum() or c in (" ", "_", "-")).strip()
+    safe_name = "".join(
+        c for c in recipient.recipient_name if c.isalnum() or c in (" ", "_", "-")
+    ).strip()
     download_filename = f"{safe_name}_{certificate_id}.pdf"
 
     return FileResponse(
@@ -72,7 +74,11 @@ async def verify_certificate(
     result = await db.execute(stmt)
     recipient = result.scalar_one_or_none()
 
-    if not recipient or recipient.status != RecipientStatus.SUCCESS or not recipient.job:
+    if (
+        not recipient
+        or recipient.status != RecipientStatus.SUCCESS
+        or not recipient.job
+    ):
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
             detail=f"Certificate with ID '{certificate_id}' could not be verified.",

@@ -58,7 +58,9 @@ class Job(Base):
         nullable=False,
         default=lambda: datetime.now(UTC),
     )
-    completed_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), nullable=True)
+    completed_at: Mapped[datetime | None] = mapped_column(
+        DateTime(timezone=True), nullable=True
+    )
 
     # Relationships (with lazy='selectin' for clean async loading)
     recipients: Mapped[list["Recipient"]] = relationship(
@@ -73,5 +75,9 @@ class Job(Base):
     def progress_percentage(self) -> float:
         """Calculate the job completion percentage."""
         if self.total_recipients == 0:
-            return 100.0 if self.status in [JobStatus.COMPLETED, JobStatus.PARTIALLY_COMPLETED] else 0.0
+            return (
+                100.0
+                if self.status in [JobStatus.COMPLETED, JobStatus.PARTIALLY_COMPLETED]
+                else 0.0
+            )
         return round((self.processed_count / self.total_recipients) * 100.0, 2)

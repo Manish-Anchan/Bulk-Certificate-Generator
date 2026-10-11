@@ -40,9 +40,7 @@ async def test_create_job_defaults_applied(client: AsyncClient):
     payload = {
         "event_name": "Python Microservices",
         "issuer_name": "Dev Institute",
-        "recipients": [
-            {"name": "Carol White", "email": "carol@example.com"}
-        ],
+        "recipients": [{"name": "Carol White", "email": "carol@example.com"}],
     }
 
     response = await client.post("/api/v1/jobs", json=payload)

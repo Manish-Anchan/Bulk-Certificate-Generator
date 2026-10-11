@@ -88,3 +88,12 @@ async def test_zip_download_404_for_unknown_job(client: AsyncClient):
     """Test that downloading zip for unknown job returns 404."""
     resp = await client.get("/api/v1/jobs/unknown-job-id/download")
     assert resp.status_code == 404
+
+
+@pytest.mark.asyncio
+async def test_dashboard_endpoint_serves_html(client: AsyncClient):
+    """Test that GET / returns the interactive web dashboard HTML."""
+    resp = await client.get("/")
+    assert resp.status_code == 200
+    assert "text/html" in resp.headers["content-type"]
+    assert "Bulk Certificate Generator" in resp.text

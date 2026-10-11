@@ -22,7 +22,9 @@ class StorageService:
         """Resolve the path for a specific certificate PDF."""
         return self.get_job_dir(job_id) / f"{certificate_id}.pdf"
 
-    def save_certificate(self, job_id: str, certificate_id: str, pdf_bytes: bytes) -> str:
+    def save_certificate(
+        self, job_id: str, certificate_id: str, pdf_bytes: bytes
+    ) -> str:
         """Save a certificate PDF to disk and return its relative/absolute path."""
         target_path = self.get_certificate_path(job_id, certificate_id)
         target_path.write_bytes(pdf_bytes)
@@ -56,9 +58,15 @@ class StorageService:
                 if path_obj.is_file():
                     zipf.write(path_obj, arcname=display_name)
                 else:
-                    logger.warning("File %s not found when building zip for job %s", file_path, job_id)
+                    logger.warning(
+                        "File %s not found when building zip for job %s",
+                        file_path,
+                        job_id,
+                    )
 
-        logger.info("Created batch zip for job %s with %d files", job_id, len(certificates))
+        logger.info(
+            "Created batch zip for job %s with %d files", job_id, len(certificates)
+        )
         return zip_path
 
 

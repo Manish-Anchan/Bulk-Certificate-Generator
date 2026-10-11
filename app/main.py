@@ -1,8 +1,10 @@
 from collections.abc import AsyncGenerator
 from contextlib import asynccontextmanager
+from pathlib import Path
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import FileResponse
 
 from app.api.v1.router import api_router
 from app.core.config import settings
@@ -13,7 +15,9 @@ from app.core.logging import logger
 @asynccontextmanager
 async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
     """Application lifespan manager: runs startup and shutdown tasks."""
-    logger.info("Starting up %s (version: %s)...", settings.PROJECT_NAME, settings.VERSION)
+    logger.info(
+        "Starting up %s (version: %s)...", settings.PROJECT_NAME, settings.VERSION
+    )
     # Ensure storage directories exist
     settings.storage_path.mkdir(parents=True, exist_ok=True)
     # Initialize database tables
@@ -57,8 +61,15 @@ def create_application() -> FastAPI:
             "environment": settings.ENV,
         }
 
+    @app.get(
+        "/", response_class=FileResponse, tags=["Dashboard"], include_in_schema=False
+    )
+    async def dashboard():
+        """Serve the interactive web dashboard."""
+        html_file = Path(__file__).parent / "static" / "index.html"
+        return FileResponse(html_file, media_type="text/html")
+
     return app
 
 
 app = create_application()
-
