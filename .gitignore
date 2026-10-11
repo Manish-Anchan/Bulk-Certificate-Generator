@@ -21,6 +21,12 @@ share/python-wheels/
 .installed.cfg
 *.egg
 
+# Database files
+*.db
+*.sqlite
+*.sqlite3
+
+
 # Virtual environments
 .env
 .venv

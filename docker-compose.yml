@@ -1,0 +1,45 @@
+services:
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: certificate_api
+    ports:
+      - "8000:8000"
+    environment:
+      - PROJECT_NAME=Bulk Certificate Generator
+      - ENV=production
+      - DEBUG=false
+      - DATABASE_URL=postgresql+asyncpg://postgres:postgres@db:5432/certificates_db
+      - STORAGE_DIR=/app/storage/certificates
+      - MAX_WORKER_THREADS=4
+      - LOG_LEVEL=INFO
+    volumes:
+      - cert_storage:/app/storage/certificates
+    depends_on:
+      db:
+        condition: service_healthy
+    restart: unless-stopped
+
+  db:
+    image: postgres:16-alpine
+    container_name: certificate_db
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=certificates_db
+    ports:
+      - "5435:5432"
+
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d certificates_db"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+volumes:
+  cert_storage:
+  postgres_data:
